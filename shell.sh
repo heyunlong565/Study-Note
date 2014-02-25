@@ -13,3 +13,7 @@ find ./ -name "*." -exec mv {} {}ts \;
 
 把文件B中有的，但是文件A中没有的所有行，保存为文件C，并统计C的行数
 diff B A | grep "<" | sed 's/< //' > C
+
+find .|xargs grep -ri 'str' 查找字符串
+
+rsync -avz user@host:srcpath despath 同步文件
