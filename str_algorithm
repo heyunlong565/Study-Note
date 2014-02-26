@@ -1,0 +1,11 @@
+<?php
+//'当当网'=》'网当当'
+function reserver($str){
+	$len = mb_strlen($str, 'utf-8');
+	$rst = array();
+	for($i=$len; $i>=0; $i--) {
+		$s = mb_substr($str, $i, 1, 'utf-8');
+		array_push($rst, $s);
+	}
+	return implode('',$rst);
+}
