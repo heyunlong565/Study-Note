@@ -1,0 +1,13 @@
+PDO持久链接：
+
+The same drawbacks exist using PDO as with any other PHP database interface that does persistent connections: if your script terminates unexpectedly in the middle of database operations, the next request that gets the left over connection will pick up where the dead script left off. The connection is held open at the process manager level (Apache for mod_php, the current FastCGI process if you're using FastCGI, etc), not at the PHP level, and PHP doesn't tell the parent process to let the connection die when the script terminates abnormally.
+
+If the dead script locked tables, those tables will remain locked until the connection dies or the next script that gets the connection unlocks the tables itself.
+
+If the dead script was in the middle of a transaction, that can block a multitude of tables until the deadlock timer kicks in, and even then, the deadlock timer can kill the newer request instead of the older request that's causing the problem.
+
+If the dead script was in the middle of a transaction, the next script that gets that connection also gets the transaction state. It's very possible (depending on your application design) that the next script might not actually ever try to commit the existing transaction, or will commit when it should not have, or roll back when it should not have.
+
+This is only the tip of the iceberg. It can all be mitigated to an extent by always trying to clean up after a dirty connection on every single script request, but that can be a pain depending on the database. Unless you have identified creating database connections as the one thing that is a bottleneck in your script (this means you've done code profiling using xdebug and/or xhprof), you should not consider persistent connections as a solution to anything.
+
+Further, most modern databases (including PostgreSQL) have their own preferred ways of performing connection pooling that don't have the immediate drawbacks that plain vanilla PHP-based persistent connections do.
