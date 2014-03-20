@@ -1,6 +1,6 @@
 //返回 N个在[min,max]范围内的不重复的数
-var createRandom = function(){
-  var rst =[], arr = [];
+function randomN(){
+  var rst ={}, arr = [];
   function createNum(min, max, n){
     if(n > (max-min+1) || max < min){
        return false; 
@@ -13,12 +13,13 @@ var createRandom = function(){
     if(n > arr.length){
        createNum(min,max,n); 
     }
+    rst.length = 0;
     return arr; 
   }
-  
   return createNum;
-};
-//实现bind
+}
+
+//实现bind事件
 var bind = function(element, type, handler){
   if(element.addEventListener){
     element.addEventListener(type, handler, false);  
@@ -28,3 +29,14 @@ var bind = function(element, type, handler){
     element["on"+type] = handler;
   }
 };
+//替换模板 template('{0} this is a {1} {2}', 'hello', 'test', '!') => hello this is a test !  
+var template = function(tpl){
+   if(!tpl)return false;
+   var args = arguments;
+
+   return tpl.replace(/\{\d+\}/g, function(reg){
+      var num = parseInt(reg.replace(/\{/, '').replace(/\}/, ''));
+      return args[num+1];
+   })
+   return tpl;
+}
