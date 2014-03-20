@@ -37,5 +37,5 @@ var template = function(tpl){
    return tpl.replace(/\{\d+\}/g, function(reg){
       var num = parseInt(reg.replace(/\{/, '').replace(/\}/, ''));
       return args[num+1];
-   })
+   });
 }
