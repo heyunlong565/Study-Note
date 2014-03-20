@@ -38,5 +38,4 @@ var template = function(tpl){
       var num = parseInt(reg.replace(/\{/, '').replace(/\}/, ''));
       return args[num+1];
    })
-   return tpl;
 }
