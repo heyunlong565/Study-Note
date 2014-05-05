@@ -33,3 +33,6 @@ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
 #CLOSING      //两边同时尝试关闭
 #TIME_WAIT   //另一边已初始化一个释放
 #LAST_ACK    //等待所有分组死掉
+
+#比较远程和本地文件
+ssh user@host cat /path/to/remotefile | diff /path/to/localfile –
